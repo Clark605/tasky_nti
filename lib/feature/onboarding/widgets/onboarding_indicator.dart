@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:tasky_nti/core/theming/app_colors.dart';
+import 'package:tasky_nti/core/theme/app_colors.dart';
 
 class OnboardingIndicator extends StatelessWidget {
   const OnboardingIndicator({

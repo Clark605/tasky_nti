@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:tasky_nti/core/constants/app_constants.dart';
-import 'package:tasky_nti/core/theming/app_colors.dart';
+import 'package:tasky_nti/core/theme/app_colors.dart';
 import 'package:tasky_nti/feature/onboarding/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tasky_nti/core/theming/app_colors.dart';
-import 'package:tasky_nti/core/theming/app_fonts.dart';
+import 'package:tasky_nti/core/theme/app_colors.dart';
+import 'package:tasky_nti/core/theme/app_fonts.dart';
 import 'package:tasky_nti/feature/onboarding/onboarding_data.dart';
 import 'package:tasky_nti/feature/onboarding/widgets/custom_animated_widget.dart';
 import 'package:tasky_nti/feature/onboarding/widgets/onboarding_button.dart';

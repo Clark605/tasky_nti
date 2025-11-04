@@ -15,11 +15,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tasky NTI',
-      initialRoute: SplashScreen.routeName,
+      initialRoute: LoginScreen.routeName,
       routes: {
         SplashScreen.routeName: (context) => const SplashScreen(),
         OnboardingScreen.routeName: (context) => const OnboardingScreen(),
-        LoginScreen.routeName: (context) => const LoginScreen(),
+        LoginScreen.routeName: (context) => LoginScreen(),
       },
     );
   }
