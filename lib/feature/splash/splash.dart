@@ -34,13 +34,13 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             FadeInLeft(
               from: 300,
-              duration: Duration(milliseconds: 800),
+              duration: const Duration(milliseconds: 800),
               child: Image.asset(AppConstants.taskSplashIcon),
             ),
             BounceInUp(
-              delay: Duration(milliseconds: 800),
+              delay: const Duration(milliseconds: 800),
               child: Align(
-                alignment: AlignmentGeometry.xy(0.0, 0.02),
+                alignment: const Alignment(0.0, 0.02),
                 child: Image.asset(AppConstants.yIcon),
               ),
             ),
