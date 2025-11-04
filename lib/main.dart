@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasky_nti/feature/onboarding/onboarding_screen.dart';
 import 'package:tasky_nti/feature/splash/splash.dart';
 
 void main() {
@@ -14,7 +15,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Tasky NTI',
       initialRoute: SplashScreen.routeName,
-      routes: {SplashScreen.routeName: (context) => const SplashScreen()},
+      routes: {
+        SplashScreen.routeName: (context) => const SplashScreen(),
+        OnboardingScreen.routeName: (context) => const OnboardingScreen(),
+      },
     );
   }
 }
