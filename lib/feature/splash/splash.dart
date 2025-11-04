@@ -16,8 +16,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, OnboardingScreen.routeName);
+
+    Future.delayed(const Duration(milliseconds: 2500), () {
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, OnboardingScreen.routeName);
+      }
     });
   }
 
@@ -29,9 +32,13 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FadeInLeft(child: Image.asset(AppConstants.taskSplashIcon)),
+            FadeInLeft(
+              from: 300,
+              duration: Duration(milliseconds: 800),
+              child: Image.asset(AppConstants.taskSplashIcon),
+            ),
             BounceInUp(
-              delay: Duration(milliseconds: 500),
+              delay: Duration(milliseconds: 800),
               child: Align(
                 alignment: AlignmentGeometry.xy(0.0, 0.02),
                 child: Image.asset(AppConstants.yIcon),
