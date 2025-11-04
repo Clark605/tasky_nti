@@ -31,5 +31,4 @@ abstract class AppFonts {
     color: Colors.grey,
     overflow: TextOverflow.ellipsis,
   );
-  static
 }
