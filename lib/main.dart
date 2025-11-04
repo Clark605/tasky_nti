@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasky_nti/feature/auth/login_screen.dart';
 import 'package:tasky_nti/feature/onboarding/onboarding_screen.dart';
 import 'package:tasky_nti/feature/splash/splash.dart';
 
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       routes: {
         SplashScreen.routeName: (context) => const SplashScreen(),
         OnboardingScreen.routeName: (context) => const OnboardingScreen(),
+        LoginScreen.routeName: (context) => const LoginScreen(),
       },
     );
   }
