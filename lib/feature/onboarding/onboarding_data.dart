@@ -15,7 +15,7 @@ class OnboardingData {
         image: AppConstants.onBoardingImage1,
         title: 'Manage your tasks',
         subtitle:
-            'You can easily manage all of your daily tasks in DoMe for free',
+            'You can easily manage all of your daily tasks in Tasky for free',
       ),
       OnboardingData(
         image: AppConstants.onBoardingImage2,

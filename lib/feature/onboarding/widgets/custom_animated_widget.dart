@@ -14,21 +14,14 @@ class CustomAnimatedWidget extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    if (index == 1) {
-      return FadeInDown(
-        delay: Duration(milliseconds: delay),
-        child: child,
-      );
-    } else if (index == 2) {
-      return FadeInUp(
-        delay: Duration(milliseconds: delay),
-        child: child,
-      );
-    } else {
-      return FadeInDown(
-        delay: Duration(milliseconds: delay),
-        child: child,
-      );
-    }
+    return (index == 2)
+        ? FadeInUp(
+            delay: Duration(milliseconds: delay),
+            child: child,
+          )
+        : FadeInDown(
+            delay: Duration(milliseconds: delay),
+            child: child,
+          );
   }
 }
