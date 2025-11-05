@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tasky_nti/core/theme/app_colors.dart';
 
 abstract class AppFonts {
-  static const TextStyle onBoardingTitle = TextStyle(
+  static const TextStyle title = TextStyle(
     fontSize: 32,
     fontWeight: FontWeight.bold,
     color: AppColors.titleText,
@@ -30,5 +30,10 @@ abstract class AppFonts {
     fontWeight: FontWeight.w400,
     color: Colors.grey,
     overflow: TextOverflow.ellipsis,
+  );
+  static const TextStyle signNav = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.normal,
+    color: AppColors.titleText,
   );
 }

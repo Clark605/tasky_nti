@@ -68,10 +68,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 margin: const EdgeInsets.symmetric(horizontal: 32.0),
                 child: Column(
                   children: [
-                    Text(
-                      onboardingData[index].title,
-                      style: AppFonts.onBoardingTitle,
-                    ),
+                    Text(onboardingData[index].title, style: AppFonts.title),
                     SizedBox(height: 24),
                     Text(
                       onboardingData[index].subtitle,

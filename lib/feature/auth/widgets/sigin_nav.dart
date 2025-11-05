@@ -23,11 +23,11 @@ class SigningNav extends StatelessWidget {
           textAlign: TextAlign.center,
           TextSpan(
             text: "$title ",
-            style: AppFonts.labelText,
+            style: AppFonts.signNav,
             children: [
               TextSpan(
                 text: subTitle,
-                style: AppFonts.labelText.copyWith(
+                style: AppFonts.signNav.copyWith(
                   color: AppColors.primary,
                   fontWeight: FontWeight.w600,
                 ),
