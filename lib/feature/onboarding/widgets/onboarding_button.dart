@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tasky_nti/core/theming/app_colors.dart';
-import 'package:tasky_nti/core/theming/app_fonts.dart';
+import 'package:tasky_nti/core/theme/app_colors.dart';
+import 'package:tasky_nti/core/theme/app_fonts.dart';
 import 'package:tasky_nti/feature/auth/login_screen.dart';
 
 class OnboardingButton extends StatelessWidget {

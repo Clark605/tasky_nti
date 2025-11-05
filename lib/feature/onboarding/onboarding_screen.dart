@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tasky_nti/core/theming/app_colors.dart';
-import 'package:tasky_nti/core/theming/app_fonts.dart';
+import 'package:tasky_nti/core/theme/app_colors.dart';
+import 'package:tasky_nti/core/theme/app_fonts.dart';
 import 'package:tasky_nti/feature/onboarding/onboarding_data.dart';
 import 'package:tasky_nti/feature/onboarding/widgets/custom_animated_widget.dart';
 import 'package:tasky_nti/feature/onboarding/widgets/onboarding_button.dart';
@@ -68,10 +68,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 margin: const EdgeInsets.symmetric(horizontal: 32.0),
                 child: Column(
                   children: [
-                    Text(
-                      onboardingData[index].title,
-                      style: AppFonts.onBoardingTitle,
-                    ),
+                    Text(onboardingData[index].title, style: AppFonts.title),
                     SizedBox(height: 24),
                     Text(
                       onboardingData[index].subtitle,

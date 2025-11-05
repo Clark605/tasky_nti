@@ -4,35 +4,41 @@ import 'package:tasky_nti/core/theme/app_fonts.dart';
 import 'package:tasky_nti/core/utils/validator.dart';
 import 'package:tasky_nti/core/widgets/app_button.dart';
 import 'package:tasky_nti/core/widgets/app_text_form_field.dart';
-import 'package:tasky_nti/feature/auth/register_screen.dart';
 import 'package:tasky_nti/feature/auth/widgets/signing_nav.dart';
 import 'package:tasky_nti/feature/home/home_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-  static const String routeName = '/login';
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+  static const String routeName = '/register';
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   late TextEditingController emailController;
+  late TextEditingController usernameController;
   late TextEditingController pswdController;
+  late TextEditingController confirmPswdController;
   late GlobalKey<FormState> formKey;
+
   @override
   void initState() {
     super.initState();
     emailController = TextEditingController();
+    usernameController = TextEditingController();
     pswdController = TextEditingController();
+    confirmPswdController = TextEditingController();
     formKey = GlobalKey<FormState>();
   }
 
   @override
   void dispose() {
-    super.dispose();
     emailController.dispose();
+    usernameController.dispose();
     pswdController.dispose();
+    confirmPswdController.dispose();
+    super.dispose();
   }
 
   @override
@@ -48,9 +54,18 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 100),
-                  const Text('Login', style: AppFonts.title),
-                  const SizedBox(height: 48),
+                  const SizedBox(height: 90),
+                  const Text('Register', style: AppFonts.title),
+                  const SizedBox(height: 24),
+                  const Text('Username', style: AppFonts.labelText),
+                  const SizedBox(height: 5),
+                  AppTextFormField(
+                    controller: usernameController,
+                    validator: Validator.validateName,
+                    hintText: 'Username',
+                    keyboardType: TextInputType.text,
+                  ),
+                  const SizedBox(height: 24),
                   const Text('Email', style: AppFonts.labelText),
                   const SizedBox(height: 5),
                   AppTextFormField(
@@ -69,12 +84,25 @@ class _LoginScreenState extends State<LoginScreen> {
                     isPassword: true,
                     obscureText: true,
                   ),
+                  const SizedBox(height: 24),
+                  const Text('Confirm Password', style: AppFonts.labelText),
+                  const SizedBox(height: 5),
+                  AppTextFormField(
+                    controller: confirmPswdController,
+                    validator: (val) => Validator.validateConfirmPassword(
+                      val,
+                      pswdController.text,
+                    ),
+                    hintText: 'Confirm Password',
+                    isPassword: true,
+                    obscureText: true,
+                  ),
                   const SizedBox(height: 72),
                   AppButton(
-                    text: 'Login',
+                    text: 'Register',
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        // Perform login action
+                        // Perform registration action
                         Navigator.pushReplacementNamed(
                           context,
                           HomeScreen.routeName,
@@ -89,9 +117,9 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       bottomNavigationBar: SigningNav(
-        title: "Don't have an account?",
-        subTitle: 'Sign Up',
-        onTap: () => Navigator.pushNamed(context, RegisterScreen.routeName),
+        title: "Already have an account?",
+        subTitle: 'Log in',
+        onTap: () => Navigator.pop(context),
       ),
     );
   }
