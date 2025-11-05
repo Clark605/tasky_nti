@@ -7,9 +7,8 @@ import 'package:tasky_nti/core/widgets/app_text_form_field.dart';
 import 'package:tasky_nti/feature/auth/widgets/signing_nav.dart';
 import 'package:tasky_nti/feature/home/home_screen.dart';
 
-// ignore: must_be_immutable
 class RegisterScreen extends StatefulWidget {
-  RegisterScreen({super.key});
+  const RegisterScreen({super.key});
   static const String routeName = '/register';
 
   @override
@@ -106,7 +105,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         // Perform registration action
                         Navigator.pushReplacementNamed(
                           context,
-
                           HomeScreen.routeName,
                         );
                       }

@@ -16,11 +16,10 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-late TextEditingController emailController;
-late TextEditingController pswdController;
-late GlobalKey<FormState> formKey;
-
 class _LoginScreenState extends State<LoginScreen> {
+  late TextEditingController emailController;
+  late TextEditingController pswdController;
+  late GlobalKey<FormState> formKey;
   @override
   void initState() {
     super.initState();
@@ -78,7 +77,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         // Perform login action
                         Navigator.pushReplacementNamed(
                           context,
-
                           HomeScreen.routeName,
                         );
                       }

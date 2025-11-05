@@ -33,7 +33,6 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
     return TextFormField(
       style: AppFonts.labelText,
       obscureText: widget.obscureText,
-
       decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: AppFonts.hintText,
