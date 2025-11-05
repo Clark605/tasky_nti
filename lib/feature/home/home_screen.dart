@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               children: [
                 Image.asset(AppConstants.logOutIcon, scale: 2),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Text(
                   'Log out',
                   style: AppFonts.labelText.copyWith(color: Colors.red),
@@ -40,14 +40,14 @@ class HomeScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         spacing: 14,
         children: [
-          SizedBox(height: 80),
+          const SizedBox(height: 80),
           Image.asset(AppConstants.homeIcon, scale: 2),
-          Text(
+          const Text(
             'What do you want to do today?',
             style: AppFonts.homeTitle,
             textAlign: TextAlign.center,
           ),
-          Text(
+          const Text(
             'Tap + to add your tasks',
             style: AppFonts.onBoardingSubtitle,
             textAlign: TextAlign.center,
@@ -58,8 +58,8 @@ class HomeScreen extends StatelessWidget {
         onPressed: () {},
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.white,
-        shape: CircleBorder(),
-        child: Icon(Icons.add, size: 32),
+        shape: const CircleBorder(),
+        child: const Icon(Icons.add, size: 32),
       ),
     );
   }
