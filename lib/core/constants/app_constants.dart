@@ -1,5 +1,7 @@
 abstract class AppConstants {
   // Assets Paths
+  // Logo
+  static const String appLogo = 'assets/images/logo.png';
   //Splash
   static const String taskSplashIcon = 'assets/images/splash/Task_splash.png';
   static const String yIcon = 'assets/images/splash/y_splash.png';
@@ -10,4 +12,8 @@ abstract class AppConstants {
       'assets/images/onboarding/onboarding_2.png';
   static const String onBoardingImage3 =
       'assets/images/onboarding/onboarding_3.png';
+
+  // Home
+  static const String homeIcon = 'assets/images/home_screen.png';
+  static const String logOutIcon = 'assets/images/logout.png';
 }
