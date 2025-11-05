@@ -4,19 +4,43 @@ import 'package:tasky_nti/core/theme/app_fonts.dart';
 import 'package:tasky_nti/core/utils/validator.dart';
 import 'package:tasky_nti/core/widgets/app_button.dart';
 import 'package:tasky_nti/core/widgets/app_text_form_field.dart';
-import 'package:tasky_nti/feature/auth/widgets/sigin_nav.dart';
+import 'package:tasky_nti/feature/auth/widgets/signing_nav.dart';
 import 'package:tasky_nti/feature/home/home_screen.dart';
 
 // ignore: must_be_immutable
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
   static const String routeName = '/register';
 
-  var emailController = TextEditingController();
-  var usernameController = TextEditingController();
-  var pswdController = TextEditingController();
-  var confirmPswdController = TextEditingController();
-  var formKey = GlobalKey<FormState>();
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  late TextEditingController emailController;
+  late TextEditingController usernameController;
+  late TextEditingController pswdController;
+  late TextEditingController confirmPswdController;
+  late GlobalKey<FormState> formKey;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController = TextEditingController();
+    usernameController = TextEditingController();
+    pswdController = TextEditingController();
+    confirmPswdController = TextEditingController();
+    formKey = GlobalKey<FormState>();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    usernameController.dispose();
+    pswdController.dispose();
+    confirmPswdController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +60,16 @@ class RegisterScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   const Text('Username', style: AppFonts.labelText),
                   const SizedBox(height: 5),
-                  AppTextFormFeild(
+                  AppTextFormField(
                     controller: usernameController,
                     validator: Validator.validateName,
                     hintText: 'Username',
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.text,
                   ),
                   const SizedBox(height: 24),
                   const Text('Email', style: AppFonts.labelText),
                   const SizedBox(height: 5),
-                  AppTextFormFeild(
+                  AppTextFormField(
                     controller: emailController,
                     validator: Validator.validateEmail,
                     hintText: 'Email',
@@ -54,7 +78,7 @@ class RegisterScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   const Text('Password', style: AppFonts.labelText),
                   const SizedBox(height: 5),
-                  AppTextFormFeild(
+                  AppTextFormField(
                     controller: pswdController,
                     validator: Validator.validatePassword,
                     hintText: 'Password',
@@ -64,7 +88,7 @@ class RegisterScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   const Text('Confirm Password', style: AppFonts.labelText),
                   const SizedBox(height: 5),
-                  AppTextFormFeild(
+                  AppTextFormField(
                     controller: confirmPswdController,
                     validator: (val) => Validator.validateConfirmPassword(
                       val,
@@ -79,7 +103,7 @@ class RegisterScreen extends StatelessWidget {
                     text: 'Register',
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        // Perform login action
+                        // Perform registration action
                         Navigator.pushReplacementNamed(
                           context,
 

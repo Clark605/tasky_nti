@@ -5,17 +5,37 @@ import 'package:tasky_nti/core/utils/validator.dart';
 import 'package:tasky_nti/core/widgets/app_button.dart';
 import 'package:tasky_nti/core/widgets/app_text_form_field.dart';
 import 'package:tasky_nti/feature/auth/register_screen.dart';
-import 'package:tasky_nti/feature/auth/widgets/sigin_nav.dart';
+import 'package:tasky_nti/feature/auth/widgets/signing_nav.dart';
 import 'package:tasky_nti/feature/home/home_screen.dart';
 
-// ignore: must_be_immutable
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
   static const String routeName = '/login';
 
-  var emailController = TextEditingController();
-  var pswdController = TextEditingController();
-  var formKey = GlobalKey<FormState>();
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+late TextEditingController emailController;
+late TextEditingController pswdController;
+late GlobalKey<FormState> formKey;
+
+class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void initState() {
+    super.initState();
+    emailController = TextEditingController();
+    pswdController = TextEditingController();
+    formKey = GlobalKey<FormState>();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    pswdController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +54,7 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 48),
                   const Text('Email', style: AppFonts.labelText),
                   const SizedBox(height: 5),
-                  AppTextFormFeild(
+                  AppTextFormField(
                     controller: emailController,
                     validator: Validator.validateEmail,
                     hintText: 'Email',
@@ -43,7 +63,7 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   const Text('Password', style: AppFonts.labelText),
                   const SizedBox(height: 5),
-                  AppTextFormFeild(
+                  AppTextFormField(
                     controller: pswdController,
                     validator: Validator.validatePassword,
                     hintText: 'Password',

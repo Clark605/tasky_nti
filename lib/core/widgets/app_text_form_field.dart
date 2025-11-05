@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:tasky_nti/core/theme/app_colors.dart';
 import 'package:tasky_nti/core/theme/app_fonts.dart';
 
 typedef MyValidator = String? Function(String?);
 
 // ignore: must_be_immutable
-class AppTextFormFeild extends StatefulWidget {
+class AppTextFormField extends StatefulWidget {
   final TextInputType keyboardType;
   final String? hintText;
   bool obscureText;
@@ -12,7 +13,7 @@ class AppTextFormFeild extends StatefulWidget {
   final TextEditingController controller;
   final MyValidator validator;
 
-  AppTextFormFeild({
+  AppTextFormField({
     required this.controller,
     required this.validator,
     this.hintText,
@@ -23,10 +24,10 @@ class AppTextFormFeild extends StatefulWidget {
   });
 
   @override
-  State<AppTextFormFeild> createState() => _AppTextFormFeildState();
+  State<AppTextFormField> createState() => _AppTextFormFieldState();
 }
 
-class _AppTextFormFeildState extends State<AppTextFormFeild> {
+class _AppTextFormFieldState extends State<AppTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -40,7 +41,7 @@ class _AppTextFormFeildState extends State<AppTextFormFeild> {
             ? IconButton(
                 icon: Icon(
                   widget.obscureText ? Icons.visibility_off : Icons.visibility,
-                  color: const Color(0xff454A4F),
+                  color: AppColors.subtitleText,
                   size: 24,
                 ),
                 onPressed: () {
@@ -53,12 +54,12 @@ class _AppTextFormFeildState extends State<AppTextFormFeild> {
 
         contentPadding: const EdgeInsets.all(15),
         enabledBorder: outlineInputBorder(
-          color: Color(0xffBABABA),
+          color: AppColors.border,
           radius: 10,
           width: 1,
         ),
         focusedBorder: outlineInputBorder(
-          color: Color(0xff5F33E1),
+          color: AppColors.primary,
           radius: 10,
           width: 1,
         ),
