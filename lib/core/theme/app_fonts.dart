@@ -7,6 +7,11 @@ abstract class AppFonts {
     fontWeight: FontWeight.bold,
     color: AppColors.titleText,
   );
+  static const TextStyle homeTitle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.normal,
+    color: AppColors.titleText,
+  );
 
   static const TextStyle onBoardingSubtitle = TextStyle(
     fontSize: 16,
