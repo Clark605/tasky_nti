@@ -30,6 +30,9 @@ dependencies:
   flutter_native_splash: ^2.4.7
   animate_do: ^4.2.0
   smooth_page_indicator: ^1.2.1
+  firebase_core: ^4.2.1
+  firebase_auth: ^6.1.2
+  cloud_firestore: ^6.1.0
 
 dev_dependencies:
   flutter_test:
