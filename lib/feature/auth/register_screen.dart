@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tasky_nti/core/theme/app_colors.dart';
 import 'package:tasky_nti/core/theme/app_fonts.dart';
@@ -100,13 +101,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const SizedBox(height: 72),
                   AppButton(
                     text: 'Register',
-                    onPressed: () {
+                    onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        // Perform registration action
-                        Navigator.pushReplacementNamed(
-                          context,
-                          HomeScreen.routeName,
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return CircularProgressIndicator();
+                          },
                         );
+                        await register(
+                              email: emailController.text,
+                              password: pswdController.text,
+                            )
+                            .then((_) {
+                              Navigator.canPop(context);
+                              usernameController.dispose();
+                              emailController.dispose();
+                              pswdController.dispose();
+                              confirmPswdController.dispose();
+                              Navigator.canPop(context);
+                              // Perform registration action
+                              Navigator.pushReplacementNamed(
+                                context,
+                                HomeScreen.routeName,
+                              );
+                            })
+                            .catchError((error) {
+                              Navigator.canPop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Registration failed: $error'),
+                                ),
+                              );
+                            });
                       }
                     },
                   ),
@@ -122,5 +149,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
         onTap: () => Navigator.pop(context),
       ),
     );
+  }
+
+  Future<void> register({
+    required String email,
+    required String password,
+  }) async {
+    // Implement registration logic here
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } catch (e) {
+      debugPrint('Registration failed: $e');
+    }
   }
 }

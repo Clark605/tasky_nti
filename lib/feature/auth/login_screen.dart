@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tasky_nti/core/theme/app_colors.dart';
 import 'package:tasky_nti/core/theme/app_fonts.dart';
@@ -72,13 +73,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 72),
                   AppButton(
                     text: 'Login',
-                    onPressed: () {
+                    onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         // Perform login action
-                        Navigator.pushReplacementNamed(
-                          context,
-                          HomeScreen.routeName,
-                        );
+                        await login(
+                          email: emailController.text,
+                          password: pswdController.text,
+                        ).then((_) {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            HomeScreen.routeName,
+                          );
+                        });
                       }
                     },
                   ),
@@ -94,5 +100,17 @@ class _LoginScreenState extends State<LoginScreen> {
         onTap: () => Navigator.pushNamed(context, RegisterScreen.routeName),
       ),
     );
+  }
+
+  Future<void> login({required String email, required String password}) async {
+    // Implement login logic here
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } catch (e) {
+      debugPrint('Login failed: $e');
+    }
   }
 }
