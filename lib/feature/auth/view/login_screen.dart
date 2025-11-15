@@ -5,8 +5,8 @@ import 'package:tasky_nti/core/theme/app_fonts.dart';
 import 'package:tasky_nti/core/utils/validator.dart';
 import 'package:tasky_nti/core/widgets/app_button.dart';
 import 'package:tasky_nti/core/widgets/app_text_form_field.dart';
-import 'package:tasky_nti/feature/auth/register_screen.dart';
-import 'package:tasky_nti/feature/auth/widgets/signing_nav.dart';
+import 'package:tasky_nti/feature/auth/view/register_screen.dart';
+import 'package:tasky_nti/feature/auth/view/widgets/signing_nav.dart';
 import 'package:tasky_nti/feature/home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {

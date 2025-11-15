@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:tasky_nti/feature/auth/login_screen.dart';
-import 'package:tasky_nti/feature/auth/register_screen.dart';
+import 'package:tasky_nti/feature/auth/view/login_screen.dart';
+import 'package:tasky_nti/feature/auth/view/register_screen.dart';
 import 'package:tasky_nti/feature/home/home_screen.dart';
 import 'package:tasky_nti/feature/onboarding/onboarding_screen.dart';
 import 'package:tasky_nti/feature/splash/splash.dart';
