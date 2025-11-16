@@ -1,12 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tasky_nti/core/firebase/fb_result.dart';
 import 'package:tasky_nti/core/theme/app_colors.dart';
 import 'package:tasky_nti/core/theme/app_fonts.dart';
 import 'package:tasky_nti/core/utils/validator.dart';
 import 'package:tasky_nti/core/widgets/app_button.dart';
+import 'package:tasky_nti/core/widgets/app_dialogs.dart';
 import 'package:tasky_nti/core/widgets/app_text_form_field.dart';
-import 'package:tasky_nti/feature/auth/widgets/signing_nav.dart';
-import 'package:tasky_nti/feature/home/home_screen.dart';
+import 'package:tasky_nti/feature/auth/data/firebase/fb_auth.dart';
+import 'package:tasky_nti/feature/auth/data/model/user_model.dart';
+import 'package:tasky_nti/feature/auth/view/widgets/signing_nav.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -103,37 +105,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     text: 'Register',
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return CircularProgressIndicator();
-                          },
-                        );
+                        AppDialogs.showLoadingDialog(context);
                         await register(
-                              email: emailController.text,
-                              password: pswdController.text,
-                            )
-                            .then((_) {
-                              Navigator.canPop(context);
-                              usernameController.dispose();
-                              emailController.dispose();
-                              pswdController.dispose();
-                              confirmPswdController.dispose();
-                              Navigator.canPop(context);
-                              // Perform registration action
-                              Navigator.pushReplacementNamed(
-                                context,
-                                HomeScreen.routeName,
-                              );
-                            })
-                            .catchError((error) {
-                              Navigator.canPop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Registration failed: $error'),
-                                ),
-                              );
-                            });
+                          user: UserModel(
+                            email: emailController.text,
+                            userName: usernameController.text,
+                          ),
+                          password: pswdController.text,
+                        );
                       }
                     },
                   ),
@@ -152,17 +131,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> register({
-    required String email,
+    required UserModel user,
     required String password,
   }) async {
-    // Implement registration logic here
-    try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } catch (e) {
-      debugPrint('Registration failed: $e');
+    final result = await FbAuth.register(user, password);
+    switch (result) {
+      case Success<void>():
+        Navigator.pop(context);
+        Navigator.pop(context);
+      case Failure():
+        Navigator.pop(context);
+        AppDialogs.showErrorDialog(context, message: result.errorMsg);
     }
   }
 }
