@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'tasky-nti.firebasestorage.app',
     iosBundleId: 'com.example.taskyNti',
   );
+
 }
