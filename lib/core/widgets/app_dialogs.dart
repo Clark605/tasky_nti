@@ -4,6 +4,7 @@ abstract class AppDialogs {
   static void showLoadingDialog(BuildContext context) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return const Center(child: CircularProgressIndicator());
       },
@@ -15,7 +16,7 @@ abstract class AppDialogs {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Error"),
+          title: const Text("Error"),
           content: Text(message),
           actions: [
             TextButton(
@@ -38,7 +39,7 @@ abstract class AppDialogs {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Hello back!"),
+          title: const Text("Success"),
           content: Text(message),
           actions: [
             TextButton(

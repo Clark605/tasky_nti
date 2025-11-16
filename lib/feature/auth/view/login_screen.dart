@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         await login(
                           email: emailController.text,
                           password: pswdController.text,
-                        ).then((_) {});
+                        );
                       }
                     },
                   ),
