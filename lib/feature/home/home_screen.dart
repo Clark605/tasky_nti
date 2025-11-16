@@ -3,6 +3,7 @@ import 'package:tasky_nti/core/constants/app_constants.dart';
 import 'package:tasky_nti/core/theme/app_colors.dart';
 import 'package:tasky_nti/core/theme/app_fonts.dart';
 import 'package:tasky_nti/feature/splash/splash.dart';
+import 'package:tasky_nti/feature/task/view/widgets/task_bottom_sheet.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -52,14 +53,16 @@ class HomeScreen extends StatelessWidget {
             style: AppFonts.onBoardingSubtitle,
             textAlign: TextAlign.center,
           ),
-          TextButton(
-            onPressed: () => throw Error(),
-            child: const Text("Throw Test Exception"),
-          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => TaskBottomSheet(),
+            isScrollControlled: true,
+          );
+        },
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.white,
         shape: const CircleBorder(),
