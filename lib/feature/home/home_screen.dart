@@ -52,6 +52,10 @@ class HomeScreen extends StatelessWidget {
             style: AppFonts.onBoardingSubtitle,
             textAlign: TextAlign.center,
           ),
+          TextButton(
+            onPressed: () => throw Error(),
+            child: const Text("Throw Test Exception"),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
