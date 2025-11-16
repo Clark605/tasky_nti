@@ -25,10 +25,32 @@ abstract class FbAuth {
           );
       user.id = credential.user?.uid;
       await _getCollection.doc(user.id).set(user);
-      return Succces();
+      return Success();
     } catch (e) {
-      // ignore: void_checks
-      return Faluire(errorMsg: e.toString());
+      return Failure(errorMsg: e.toString());
     }
+  }
+
+  static Future<FbResult<UserModel>> login(
+    String email,
+    String password,
+  ) async {
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      final user = await _getCollection
+          .doc(credential.user?.uid)
+          .get()
+          .then((doc) => doc.data()!);
+      return Success(data: user);
+    } catch (e) {
+      return Failure(errorMsg: e.toString());
+    }
+  }
+
+  static Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

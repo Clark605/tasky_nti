@@ -15,5 +15,8 @@ abstract class AppConstants {
 
   // Home
   static const String homeIcon = 'assets/images/home_screen.png';
-  static const String logOutIcon = 'assets/images/logout.png';
+  static const String logOutIcon = 'assets/images/icons/logout.png';
+  static const String timerIcon = 'assets/images/icons/timer.png';
+  static const String sendIcon = 'assets/images/icons/send.png';
+  static const String flagIcon = 'assets/images/icons/flag.png';
 }

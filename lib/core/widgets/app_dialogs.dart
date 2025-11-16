@@ -29,4 +29,27 @@ abstract class AppDialogs {
       },
     );
   }
+
+  static Future<void> showSuccessDialog(
+    BuildContext context, {
+    required String message,
+  }) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Hello back!"),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

@@ -1,10 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tasky_nti/core/firebase/fb_result.dart';
 import 'package:tasky_nti/core/theme/app_colors.dart';
 import 'package:tasky_nti/core/theme/app_fonts.dart';
 import 'package:tasky_nti/core/utils/validator.dart';
 import 'package:tasky_nti/core/widgets/app_button.dart';
+import 'package:tasky_nti/core/widgets/app_dialogs.dart';
 import 'package:tasky_nti/core/widgets/app_text_form_field.dart';
+import 'package:tasky_nti/feature/auth/data/firebase/fb_auth.dart';
 import 'package:tasky_nti/feature/auth/view/register_screen.dart';
 import 'package:tasky_nti/feature/auth/view/widgets/signing_nav.dart';
 import 'package:tasky_nti/feature/home/home_screen.dart';
@@ -79,12 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         await login(
                           email: emailController.text,
                           password: pswdController.text,
-                        ).then((_) {
-                          Navigator.pushReplacementNamed(
-                            context,
-                            HomeScreen.routeName,
-                          );
-                        });
+                        ).then((_) {});
                       }
                     },
                   ),
@@ -103,14 +100,19 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> login({required String email, required String password}) async {
-    // Implement login logic here
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } catch (e) {
-      debugPrint('Login failed: $e');
+    AppDialogs.showLoadingDialog(context);
+    final result = await FbAuth.login(email, password);
+    Navigator.pop(context);
+    switch (result) {
+      case Success():
+        AppDialogs.showSuccessDialog(
+          context,
+          message: "Welcome back, ${result.data!.userName}!",
+        ).then(
+          (_) => Navigator.pushReplacementNamed(context, HomeScreen.routeName),
+        );
+      case Failure():
+        AppDialogs.showErrorDialog(context, message: result.errorMsg);
     }
   }
 }

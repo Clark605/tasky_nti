@@ -136,10 +136,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }) async {
     final result = await FbAuth.register(user, password);
     switch (result) {
-      case Succces<void>():
+      case Success<void>():
         Navigator.pop(context);
         Navigator.pop(context);
-      case Faluire():
+      case Failure():
         Navigator.pop(context);
         AppDialogs.showErrorDialog(context, message: result.errorMsg);
     }
