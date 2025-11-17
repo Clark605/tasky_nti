@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tasky_nti/core/constants/app_constants.dart';
+import 'package:tasky_nti/core/firebase/fb_result.dart';
 import 'package:tasky_nti/core/theme/app_colors.dart';
 import 'package:tasky_nti/core/utils/formatter.dart';
 import 'package:tasky_nti/core/utils/validator.dart';
+import 'package:tasky_nti/core/widgets/app_dialogs.dart';
 import 'package:tasky_nti/core/widgets/app_text_form_field.dart';
+import 'package:tasky_nti/feature/task/data/firebase/fb_task.dart';
 import 'package:tasky_nti/feature/task/data/model/task_model.dart';
 import 'package:tasky_nti/feature/task/view/widgets/task_priority_picker.dart';
 
@@ -98,15 +101,60 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 child: Image.asset(AppConstants.flagIcon, scale: 2),
               ),
               Spacer(),
-              InkWell(
-                onTap: () {},
-                child: Image.asset(AppConstants.sendIcon, scale: 2),
+              ListenableBuilder(
+                listenable: taskModel,
+                builder: (context, child) {
+                  final isValid =
+                      taskModel.title != null &&
+                      taskModel.title!.isNotEmpty &&
+                      taskModel.description != null &&
+                      taskModel.description!.isNotEmpty &&
+                      taskModel.date != null &&
+                      taskModel.priority != null;
+                  return InkWell(
+                    onTap: !isValid
+                        ? () {
+                            AppDialogs.showErrorDialog(
+                              context,
+                              message: 'Please fill all fields',
+                            );
+                          }
+                        : () {
+                            taskModel.title = taskTitleController.text;
+                            taskModel.description =
+                                taskDescriptionController.text;
+                            AppDialogs.showLoadingDialog(context);
+                            sendTaskOnTap(context);
+                          },
+                    child: Image.asset(
+                      AppConstants.sendIcon,
+                      scale: 2,
+                      color: !isValid ? Colors.grey : AppColors.primary,
+                    ),
+                  );
+                },
               ),
             ],
           ),
         ],
       ),
     );
+  }
+
+  Future<void> sendTaskOnTap(BuildContext context) async {
+    final result = await FbTask.addTask(taskModel);
+    switch (result) {
+      case Success():
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+        AppDialogs.showSuccessDialog(
+          context,
+          message: 'Task added Succefully!',
+        );
+      case Failure():
+        Navigator.of(context).pop();
+        AppDialogs.showErrorDialog(context, message: result.errorMsg);
+    }
   }
 
   Future<dynamic> priorityOnTap(BuildContext context) {
@@ -141,6 +189,15 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
     taskTitleController = TextEditingController();
     taskDescriptionController = TextEditingController();
     taskModel = TaskModel();
+    taskTitleController.addListener(() {
+      taskModel.title = taskTitleController.text;
+      taskModel.notifyListeners();
+    });
+
+    taskDescriptionController.addListener(() {
+      taskModel.description = taskDescriptionController.text;
+      taskModel.notifyListeners();
+    });
   }
 
   @override

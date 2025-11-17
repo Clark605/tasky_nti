@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 abstract class AppDialogs {
-  static void showLoadingDialog(BuildContext context) {
-    showDialog(
+  static Future<void> showLoadingDialog(BuildContext context) {
+    return showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) {

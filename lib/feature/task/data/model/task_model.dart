@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TaskModel extends ChangeNotifier {
   static const String collectionName = 'tasks';
-  final String? id;
+  String? id;
   String? title;
   String? description;
   DateTime? date;
