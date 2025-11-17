@@ -3,7 +3,8 @@ import 'package:tasky_nti/core/constants/app_constants.dart';
 import 'package:tasky_nti/core/theme/app_colors.dart';
 
 class TaskPriorityPicker extends StatefulWidget {
-  const TaskPriorityPicker({super.key});
+  const TaskPriorityPicker({super.key, required this.onPrioritySelected});
+  final void Function(int) onPrioritySelected;
 
   @override
   State<TaskPriorityPicker> createState() => _TaskPriorityPickerState();
@@ -67,7 +68,11 @@ class _TaskPriorityPickerState extends State<TaskPriorityPicker> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  widget.onPrioritySelected(selectedIndex);
+                  setState(() {});
+                  Navigator.of(context).pop();
+                },
                 color: AppColors.primary,
                 child: Text('Save', style: TextStyle(color: Colors.white)),
               ),
@@ -85,7 +90,6 @@ class _PriorityOption extends StatelessWidget {
   final bool isSelected;
 
   const _PriorityOption({
-    super.key,
     required this.index,
     this.onTap,
     this.isSelected = false,
