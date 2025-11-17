@@ -57,17 +57,21 @@ class HomeScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            builder: (context) => TaskBottomSheet(),
-            isScrollControlled: true,
-          );
+          floatingActionOnPressed(context);
         },
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.white,
         shape: const CircleBorder(),
         child: const Icon(Icons.add, size: 32),
       ),
+    );
+  }
+
+  Future<dynamic> floatingActionOnPressed(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) => TaskBottomSheet(),
+      isScrollControlled: true,
     );
   }
 }

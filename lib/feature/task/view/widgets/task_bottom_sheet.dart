@@ -4,9 +4,14 @@ import 'package:tasky_nti/core/utils/validator.dart';
 import 'package:tasky_nti/core/widgets/app_text_form_field.dart';
 import 'package:tasky_nti/feature/task/view/widgets/task_priority_picker.dart';
 
-class TaskBottomSheet extends StatelessWidget {
+class TaskBottomSheet extends StatefulWidget {
   const TaskBottomSheet({super.key});
 
+  @override
+  State<TaskBottomSheet> createState() => _TaskBottomSheetState();
+}
+
+class _TaskBottomSheetState extends State<TaskBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -39,17 +44,16 @@ class TaskBottomSheet extends StatelessWidget {
             children: [
               InkWell(
                 customBorder: CircleBorder(),
-                onTap: () => showDatePicker(
-                  context: context,
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime(2100),
-                ),
+                onTap: () => sendButtonOnTap(context),
                 child: Image.asset(AppConstants.timerIcon, scale: 2),
               ),
               SizedBox(width: 10),
               InkWell(
                 onTap: () {
-                  TaskPriorityPicker();
+                  showDialog(
+                    context: context,
+                    builder: (context) => TaskPriorityPicker(),
+                  );
                 },
                 child: Image.asset(AppConstants.flagIcon, scale: 2),
               ),
@@ -62,6 +66,15 @@ class TaskBottomSheet extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Future<DateTime?> sendButtonOnTap(BuildContext context) {
+    return showDatePicker(
+      context: context,
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 30)),
+      initialDate: DateTime.now(),
     );
   }
 }
