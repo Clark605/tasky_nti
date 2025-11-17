@@ -6,9 +6,9 @@ import 'package:tasky_nti/core/utils/formatter.dart';
 import 'package:tasky_nti/core/utils/validator.dart';
 import 'package:tasky_nti/core/widgets/app_dialogs.dart';
 import 'package:tasky_nti/core/widgets/app_text_form_field.dart';
-import 'package:tasky_nti/feature/task/data/firebase/fb_task.dart';
-import 'package:tasky_nti/feature/task/data/model/task_model.dart';
-import 'package:tasky_nti/feature/task/view/widgets/task_priority_picker.dart';
+import 'package:tasky_nti/feature/home/data/firebase/fb_task.dart';
+import 'package:tasky_nti/feature/home/data/model/task_model.dart';
+import 'package:tasky_nti/feature/home/view/widgets/task_priority_picker.dart';
 
 class TaskBottomSheet extends StatefulWidget {
   const TaskBottomSheet({super.key});

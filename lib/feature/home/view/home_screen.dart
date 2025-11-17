@@ -1,13 +1,47 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:tasky_nti/core/constants/app_constants.dart';
+import 'package:tasky_nti/core/firebase/fb_result.dart';
 import 'package:tasky_nti/core/theme/app_colors.dart';
 import 'package:tasky_nti/core/theme/app_fonts.dart';
+import 'package:tasky_nti/core/widgets/app_dialogs.dart';
+import 'package:tasky_nti/feature/home/data/firebase/fb_task.dart';
+import 'package:tasky_nti/feature/home/data/model/task_model.dart';
+import 'package:tasky_nti/feature/home/view/widgets/card_item.dart';
+import 'package:tasky_nti/feature/home/view/widgets/empty_state.dart';
 import 'package:tasky_nti/feature/splash/splash.dart';
-import 'package:tasky_nti/feature/task/view/widgets/task_bottom_sheet.dart';
+import 'package:tasky_nti/feature/home/view/widgets/task_bottom_sheet.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   static const String routeName = '/home';
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<TaskModel> tasks = [];
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getTasks();
+  }
+
+  void getTasks() async {
+    final result = await FbTask.getTasks();
+    switch (result) {
+      case Success():
+        tasks = result.data ?? [];
+        log(tasks.toString());
+      case Failure():
+        AppDialogs.showErrorDialog(context, message: result.errorMsg);
+    }
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,28 +71,9 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: 14,
-        children: [
-          const SizedBox(height: 80),
-          Image.asset(AppConstants.homeIcon, scale: 2),
-          const Text(
-            'What do you want to do today?',
-            style: AppFonts.homeTitle,
-            textAlign: TextAlign.center,
-          ),
-          const Text(
-            'Tap + to add your tasks',
-            style: AppFonts.onBoardingSubtitle,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
+      body: Column(children: [CardItem()]),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          floatingActionOnPressed(context);
-        },
+        onPressed: () => floatingActionOnPressed(context),
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.white,
         shape: const CircleBorder(),

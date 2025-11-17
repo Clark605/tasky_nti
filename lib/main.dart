@@ -5,7 +5,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:tasky_nti/feature/auth/view/login_screen.dart';
 import 'package:tasky_nti/feature/auth/view/register_screen.dart';
-import 'package:tasky_nti/feature/home/home_screen.dart';
+import 'package:tasky_nti/feature/home/view/home_screen.dart';
 import 'package:tasky_nti/feature/onboarding/onboarding_screen.dart';
 import 'package:tasky_nti/feature/splash/splash.dart';
 import 'package:tasky_nti/firebase_options.dart';
