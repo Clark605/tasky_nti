@@ -19,4 +19,6 @@ abstract class AppConstants {
   static const String timerIcon = 'assets/images/icons/timer.png';
   static const String sendIcon = 'assets/images/icons/send.png';
   static const String flagIcon = 'assets/images/icons/flag.png';
+  static const String searchIcon = 'assets/images/icons/search.png';
+  static const String trashIcon = 'assets/images/icons/trash.png';
 }

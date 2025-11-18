@@ -1,7 +1,9 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tasky_nti/core/constants/app_constants.dart';
 import 'package:tasky_nti/core/theme/app_colors.dart';
+import 'package:tasky_nti/feature/home/view/home_screen.dart';
 import 'package:tasky_nti/feature/onboarding/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,7 +21,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed(const Duration(milliseconds: 2500), () {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, OnboardingScreen.routeName);
+        if (FirebaseAuth.instance.currentUser == null) {
+          Navigator.pushReplacementNamed(context, OnboardingScreen.routeName);
+        } else {
+          Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+        }
       }
     });
   }

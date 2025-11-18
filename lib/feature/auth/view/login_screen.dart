@@ -9,7 +9,7 @@ import 'package:tasky_nti/core/widgets/app_text_form_field.dart';
 import 'package:tasky_nti/feature/auth/data/firebase/fb_auth.dart';
 import 'package:tasky_nti/feature/auth/view/register_screen.dart';
 import 'package:tasky_nti/feature/auth/view/widgets/signing_nav.dart';
-import 'package:tasky_nti/feature/home/home_screen.dart';
+import 'package:tasky_nti/feature/home/view/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

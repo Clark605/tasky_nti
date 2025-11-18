@@ -5,7 +5,8 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:tasky_nti/feature/auth/view/login_screen.dart';
 import 'package:tasky_nti/feature/auth/view/register_screen.dart';
-import 'package:tasky_nti/feature/home/home_screen.dart';
+import 'package:tasky_nti/feature/home/view/home_screen.dart';
+import 'package:tasky_nti/feature/home/view/task_screen.dart';
 import 'package:tasky_nti/feature/onboarding/onboarding_screen.dart';
 import 'package:tasky_nti/feature/splash/splash.dart';
 import 'package:tasky_nti/firebase_options.dart';
@@ -30,13 +31,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tasky NTI',
-      initialRoute: HomeScreen.routeName,
+      initialRoute: SplashScreen.routeName,
       routes: {
         SplashScreen.routeName: (context) => const SplashScreen(),
         OnboardingScreen.routeName: (context) => const OnboardingScreen(),
         LoginScreen.routeName: (context) => const LoginScreen(),
         RegisterScreen.routeName: (context) => const RegisterScreen(),
         HomeScreen.routeName: (context) => const HomeScreen(),
+        TaskScreen.routeName: (context) => const TaskScreen(),
       },
     );
   }
