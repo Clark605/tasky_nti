@@ -2,10 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:tasky_nti/core/constants/app_constants.dart';
 import 'package:tasky_nti/core/theme/app_colors.dart';
 import 'package:tasky_nti/core/theme/app_fonts.dart';
+import 'package:tasky_nti/core/utils/formatter.dart';
 
-class CardItem extends StatelessWidget {
-  const CardItem({super.key});
+class CardItem extends StatefulWidget {
+  const CardItem({
+    super.key,
+    required this.title,
+    required this.date,
+    required this.priority,
+  });
+  final String title;
+  final DateTime date;
+  final int priority;
 
+  @override
+  State<CardItem> createState() => _CardItemState();
+}
+
+class _CardItemState extends State<CardItem> {
+  bool isCompleted = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,14 +31,33 @@ class CardItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Radio(value: true, onChanged: (value) {}),
+          Transform.scale(
+            scale: 1.2,
+            child: Checkbox(
+              value: isCompleted,
+              onChanged: (value) {
+                setState(() {
+                  isCompleted = value!;
+                });
+              },
+              side: BorderSide(width: 1.5, color: AppColors.primary),
+              activeColor: AppColors.primary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ),
+
           Expanded(
             child: Column(
               spacing: 6,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Task Title', style: AppFonts.labelText),
-                Text('Task Date', style: AppFonts.hintText),
+                Text(widget.title, style: AppFonts.cardTitle),
+                Text(
+                  Formatter.formattedDate(widget.date),
+                  style: AppFonts.cardSubtitle,
+                ),
               ],
             ),
           ),
@@ -37,7 +71,7 @@ class CardItem extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset(AppConstants.flagIcon, scale: 2),
-                Text('3'),
+                Text(' ${widget.priority} '),
               ],
             ),
           ),

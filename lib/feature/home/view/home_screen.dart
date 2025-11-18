@@ -1,16 +1,18 @@
 import 'dart:developer';
 
+import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:tasky_nti/core/constants/app_constants.dart';
 import 'package:tasky_nti/core/firebase/fb_result.dart';
 import 'package:tasky_nti/core/theme/app_colors.dart';
-import 'package:tasky_nti/core/theme/app_fonts.dart';
+import 'package:tasky_nti/core/utils/validator.dart';
 import 'package:tasky_nti/core/widgets/app_dialogs.dart';
+import 'package:tasky_nti/core/widgets/app_text_form_field.dart';
 import 'package:tasky_nti/feature/home/data/firebase/fb_task.dart';
 import 'package:tasky_nti/feature/home/data/model/task_model.dart';
 import 'package:tasky_nti/feature/home/view/widgets/card_item.dart';
 import 'package:tasky_nti/feature/home/view/widgets/empty_state.dart';
-import 'package:tasky_nti/feature/splash/splash.dart';
+import 'package:tasky_nti/feature/home/view/widgets/home_app_bar.dart';
 import 'package:tasky_nti/feature/home/view/widgets/task_bottom_sheet.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -47,31 +49,83 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 12.0),
-          child: Image.asset(AppConstants.appLogo, scale: 2),
-        ),
-        leadingWidth: 100,
-        actions: [
-          TextButton(
-            onPressed: () =>
-                Navigator.pushReplacementNamed(context, SplashScreen.routeName),
-            child: Row(
-              children: [
-                Image.asset(AppConstants.logOutIcon, scale: 2),
-                const SizedBox(width: 10),
-                Text(
-                  'Log out',
-                  style: AppFonts.labelText.copyWith(color: Colors.red),
-                ),
-              ],
+      appBar: HomeAppBar(),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          spacing: 32,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            DatePicker(
+              DateTime.now(),
+              height: 100,
+              initialSelectedDate: DateTime.now(),
+              daysCount:
+                  DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month + 1,
+                    0,
+                  ).day -
+                  DateTime.now().day +
+                  1,
+              selectionColor: AppColors.primary,
+              selectedTextColor: AppColors.white,
+              onDateChange: (date) {
+                // New date selected
+              },
             ),
-          ),
-        ],
+            AppTextFormField(
+              controller: TextEditingController(),
+              validator: Validator.validateName,
+              hintText: 'Search for your tasks',
+              prefixIcon: Image.asset(AppConstants.searchIcon, scale: 2),
+            ),
+            if (tasks.isEmpty) EmptyState(),
+            if (tasks.isNotEmpty)
+              SizedBox(
+                height: 390,
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return CardItem(
+                      title: tasks[index].title ?? '',
+                      date: tasks[index].date ?? DateTime.now(),
+                      priority: tasks[index].priority ?? 1,
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: 16);
+                  },
+                  itemCount: tasks.length,
+                ),
+              ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.subtitleText),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text('Completed'),
+            ),
+            SizedBox(
+              height: 390,
+              child: ListView.separated(
+                itemBuilder: (context, index) {
+                  return CardItem(
+                    title: tasks[index].title ?? '',
+                    date: tasks[index].date ?? DateTime.now(),
+                    priority: tasks[index].priority ?? 1,
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return SizedBox(height: 16);
+                },
+                itemCount: tasks.length,
+              ),
+            ),
+          ],
+        ),
       ),
-      body: Column(children: [CardItem()]),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () => floatingActionOnPressed(context),
         backgroundColor: AppColors.primary,

@@ -41,4 +41,15 @@ abstract class AppFonts {
     fontWeight: FontWeight.normal,
     color: AppColors.titleText,
   );
+  static const TextStyle cardTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    letterSpacing: -0.32,
+  );
+  static const TextStyle cardSubtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.normal,
+    color: Color(0xff6E6A7C),
+    letterSpacing: -0.32,
+  );
 }
