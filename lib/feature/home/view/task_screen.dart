@@ -121,8 +121,6 @@ class _TaskScreenState extends State<TaskScreen> {
               onTap: () async {
                 AppDialogs.showLoadingDialog(context);
                 await onDelete(context);
-
-                // Show error message
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(

@@ -82,7 +82,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
             controller: taskTitleController,
           ),
           AppTextFormField(
-            hintText: 'Descrption',
+            hintText: 'Description',
             controller: taskDescriptionController,
           ),
           Row(
@@ -146,7 +146,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
         Navigator.of(context).pop();
         AppDialogs.showSuccessDialog(
           context,
-          message: 'Task added Succefully!',
+          message: 'Task added Successfully!',
         );
       case Failure():
         Navigator.of(context).pop();
@@ -178,7 +178,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
 
   late TextEditingController taskTitleController;
   late TextEditingController taskDescriptionController;
-  late int selectedPriority;
+
   late TaskModel taskModel;
   @override
   void initState() {

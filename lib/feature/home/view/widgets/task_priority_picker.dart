@@ -16,9 +16,7 @@ class _TaskPriorityPickerState extends State<TaskPriorityPicker> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadiusGeometry.circular(4),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       titlePadding: EdgeInsets.all(16),
       contentPadding: EdgeInsets.all(16),
       actionsPadding: EdgeInsets.only(bottom: 16, left: 16, right: 16),

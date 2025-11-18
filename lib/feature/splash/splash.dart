@@ -20,10 +20,12 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Future.delayed(const Duration(milliseconds: 2500), () {
-      if (mounted && FirebaseAuth.instance.currentUser == null) {
-        Navigator.pushReplacementNamed(context, OnboardingScreen.routeName);
-      } else {
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+      if (mounted) {
+        if (FirebaseAuth.instance.currentUser == null) {
+          Navigator.pushReplacementNamed(context, OnboardingScreen.routeName);
+        } else {
+          Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+        }
       }
     });
   }
