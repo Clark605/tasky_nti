@@ -61,7 +61,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 AppTextFormField(
                   enabled:
-                      !(uncompletedTasks.isEmpty && completedTasks.isEmpty),
+                      !(uncompletedTasks.isEmpty &&
+                          completedTasks.isEmpty &&
+                          searchController.text.isEmpty),
                   controller: searchController,
                   hintText: 'Search for your tasks',
                   prefixIcon: Image.asset(AppConstants.searchIcon, scale: 2),
@@ -86,7 +88,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                   },
                 ),
-                if (uncompletedTasks.isEmpty && searchController.text.isEmpty)
+                if (uncompletedTasks.isEmpty &&
+                    completedTasks.isEmpty &&
+                    searchController.text.isEmpty)
                   EmptyState(),
               ],
             ),

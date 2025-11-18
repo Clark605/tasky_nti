@@ -12,6 +12,7 @@ class AppTextFormField extends StatefulWidget {
   final bool isPassword;
   final bool enabled;
   final Widget? prefixIcon;
+  final Widget? suffixIcon;
   final TextEditingController controller;
   final MyValidator? validator;
   final ValueChanged<String>? onChanged;
@@ -21,6 +22,7 @@ class AppTextFormField extends StatefulWidget {
     this.validator,
     this.hintText,
     this.prefixIcon,
+    this.suffixIcon,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
     this.isPassword = false,
@@ -56,7 +58,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
                   });
                 },
               )
-            : null,
+            : widget.suffixIcon,
         prefixIcon: widget.prefixIcon,
 
         contentPadding: const EdgeInsets.all(15),
