@@ -10,6 +10,7 @@ import 'package:tasky_nti/core/widgets/app_dialogs.dart';
 import 'package:tasky_nti/core/widgets/app_text_form_field.dart';
 import 'package:tasky_nti/feature/home/data/firebase/fb_task.dart';
 import 'package:tasky_nti/feature/home/data/model/task_model.dart';
+import 'package:tasky_nti/feature/home/view/task_screen.dart';
 import 'package:tasky_nti/feature/home/view/widgets/card_item.dart';
 import 'package:tasky_nti/feature/home/view/widgets/empty_state.dart';
 import 'package:tasky_nti/feature/home/view/widgets/home_app_bar.dart';
@@ -82,6 +83,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           getAllTasks();
                           setState(() {});
                         },
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          TaskScreen.routeName,
+                          arguments: uncompletedTasks[index],
+                        ).whenComplete(getAllTasks),
                       );
                     },
                     separatorBuilder: (context, index) {
@@ -123,6 +129,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         getAllTasks();
                         setState(() {});
                       },
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        TaskScreen.routeName,
+                        arguments: completedTasks[index],
+                      ),
                     );
                   },
                   separatorBuilder: (context, index) {

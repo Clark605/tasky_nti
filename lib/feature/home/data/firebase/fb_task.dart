@@ -71,4 +71,13 @@ abstract class FbTask {
       return Failure(errorMsg: e.toString());
     }
   }
+
+  static Future<FbResult<void>> deleteTask(String taskId) async {
+    try {
+      await _getCollection.doc(taskId).delete();
+      return Success();
+    } catch (e) {
+      return Failure(errorMsg: e.toString());
+    }
+  }
 }

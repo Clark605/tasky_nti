@@ -25,7 +25,7 @@ abstract class AppFonts {
   );
 
   static const TextStyle labelText = TextStyle(
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: FontWeight.normal,
     color: AppColors.titleText,
   );
