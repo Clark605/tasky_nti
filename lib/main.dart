@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tasky NTI',
-      initialRoute: HomeScreen.routeName,
+      initialRoute: FirebaseAuth.instance.currentUser?.uid != null
+          ? HomeScreen.routeName
+          : OnboardingScreen.routeName,
       routes: {
         SplashScreen.routeName: (context) => const SplashScreen(),
         OnboardingScreen.routeName: (context) => const OnboardingScreen(),

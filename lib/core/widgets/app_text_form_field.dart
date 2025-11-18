@@ -12,16 +12,18 @@ class AppTextFormField extends StatefulWidget {
   final bool isPassword;
   final Widget? prefixIcon;
   final TextEditingController controller;
-  final MyValidator validator;
+  final MyValidator? validator;
+  final ValueChanged<String>? onChanged;
 
   AppTextFormField({
     required this.controller,
-    required this.validator,
+    this.validator,
     this.hintText,
     this.prefixIcon,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
     this.isPassword = false,
+    this.onChanged,
     super.key,
   });
 
@@ -79,6 +81,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
       keyboardType: widget.keyboardType,
       controller: widget.controller,
       validator: widget.validator,
+      onChanged: widget.onChanged,
     );
   }
 

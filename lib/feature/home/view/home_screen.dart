@@ -58,12 +58,34 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             AppTextFormField(
-              controller: TextEditingController(),
-              validator: Validator.validateName,
+              controller: searchController,
               hintText: 'Search for your tasks',
               prefixIcon: Image.asset(AppConstants.searchIcon, scale: 2),
+              onChanged: (value) {
+                uncompletedTasks = uncompletedTasks
+                    .where(
+                      (task) => task.title!.toLowerCase().contains(
+                        value.toLowerCase(),
+                      ),
+                    )
+                    .toList();
+                completedTasks = completedTasks
+                    .where(
+                      (task) => task.title!.toLowerCase().contains(
+                        value.toLowerCase(),
+                      ),
+                    )
+                    .toList();
+                setState(() {});
+                if (value.isEmpty) {
+                  getAllTasks();
+                }
+              },
             ),
-            if (uncompletedTasks.isEmpty) EmptyState(),
+            if (uncompletedTasks.isEmpty && searchController.text.isEmpty)
+              EmptyState(),
+            if (uncompletedTasks.isEmpty && searchController.text.isNotEmpty)
+              SizedBox.shrink(),
             if (uncompletedTasks.isNotEmpty)
               Scrollbar(
                 interactive: true,
@@ -97,15 +119,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.subtitleText),
-                borderRadius: BorderRadius.circular(6),
+            if (uncompletedTasks.isNotEmpty)
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.subtitleText),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text('Completed'),
               ),
-              child: Text('Completed'),
-            ),
-            if (completedTasks.isEmpty)
+            if (completedTasks.isEmpty && uncompletedTasks.isNotEmpty)
               Center(
                 child: Text(
                   'No completed tasks',
@@ -133,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         context,
                         TaskScreen.routeName,
                         arguments: completedTasks[index],
-                      ),
+                      ).whenComplete(getAllTasks),
                     );
                   },
                   separatorBuilder: (context, index) {
@@ -160,6 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<TaskModel> uncompletedTasks = [];
   List<TaskModel> completedTasks = [];
   DateTime selectedDate = DateTime.now();
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {

@@ -3,7 +3,6 @@ import 'package:tasky_nti/core/constants/app_constants.dart';
 import 'package:tasky_nti/core/firebase/fb_result.dart';
 import 'package:tasky_nti/core/theme/app_colors.dart';
 import 'package:tasky_nti/core/utils/formatter.dart';
-import 'package:tasky_nti/core/utils/validator.dart';
 import 'package:tasky_nti/core/widgets/app_dialogs.dart';
 import 'package:tasky_nti/core/widgets/app_text_form_field.dart';
 import 'package:tasky_nti/feature/home/data/firebase/fb_task.dart';
@@ -81,12 +80,10 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
           AppTextFormField(
             hintText: 'Do math homework',
             controller: taskTitleController,
-            validator: Validator.validateName,
           ),
           AppTextFormField(
             hintText: 'Descrption',
             controller: taskDescriptionController,
-            validator: Validator.validateName,
           ),
           Row(
             children: [
