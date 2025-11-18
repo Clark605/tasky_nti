@@ -85,7 +85,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
       ),
       keyboardType: widget.keyboardType,
       controller: widget.controller,
-      validator: widget.validator,
+      validator: widget.validator ?? (value) => null,
       onChanged: widget.onChanged,
     );
   }

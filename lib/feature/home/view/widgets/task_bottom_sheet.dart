@@ -117,9 +117,6 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                             );
                           }
                         : () {
-                            taskModel.title = taskTitleController.text;
-                            taskModel.description =
-                                taskDescriptionController.text;
                             AppDialogs.showLoadingDialog(context);
                             sendTaskOnTap(context);
                           },
@@ -199,9 +196,9 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
 
   @override
   void dispose() {
-    super.dispose();
     taskTitleController.dispose();
     taskDescriptionController.dispose();
     taskModel.dispose();
+    super.dispose();
   }
 }

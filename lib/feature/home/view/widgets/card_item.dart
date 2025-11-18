@@ -43,7 +43,7 @@ class CardItem extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          padding: EdgeInsets.only(right: 16, top: 16, bottom: 16),
+          padding: const EdgeInsets.only(right: 16, top: 16, bottom: 16),
           decoration: BoxDecoration(
             border: Border.all(color: AppColors.border),
             borderRadius: BorderRadius.circular(10),
@@ -83,7 +83,7 @@ class CardItem extends StatelessWidget {
                   border: Border.all(color: AppColors.primary),
                   borderRadius: BorderRadius.circular(4),
                 ),
-                padding: EdgeInsets.all(6),
+                padding: const EdgeInsets.all(6),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

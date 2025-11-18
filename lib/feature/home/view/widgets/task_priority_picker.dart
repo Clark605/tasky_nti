@@ -17,17 +17,17 @@ class _TaskPriorityPickerState extends State<TaskPriorityPicker> {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-      titlePadding: EdgeInsets.all(16),
-      contentPadding: EdgeInsets.all(16),
-      actionsPadding: EdgeInsets.only(bottom: 16, left: 16, right: 16),
-      insetPadding: EdgeInsets.symmetric(horizontal: 24),
+      titlePadding: const EdgeInsets.all(16),
+      contentPadding: const EdgeInsets.all(16),
+      actionsPadding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+      insetPadding: const EdgeInsets.symmetric(horizontal: 24),
       title: Column(
         children: [
-          Text(
+          const Text(
             'Task Priority',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          Divider(),
+          const Divider(),
         ],
       ),
       content: Wrap(
@@ -68,7 +68,6 @@ class _TaskPriorityPickerState extends State<TaskPriorityPicker> {
                 ),
                 onPressed: () {
                   widget.onPrioritySelected(selectedIndex);
-                  setState(() {});
                   Navigator.of(context).pop();
                 },
                 color: AppColors.primary,
@@ -105,8 +104,8 @@ class _PriorityOption extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
           color: isSelected ? AppColors.primary : null,
         ),
-        padding: EdgeInsets.symmetric(vertical: 7, horizontal: 20),
-        margin: EdgeInsets.only(left: 8, right: 8, bottom: 12),
+        padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 20),
+        margin: const EdgeInsets.only(left: 8, right: 8, bottom: 12),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

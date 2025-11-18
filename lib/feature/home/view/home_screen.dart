@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:tasky_nti/core/constants/app_constants.dart';
@@ -53,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       1,
                   selectionColor: AppColors.primary,
                   selectedTextColor: AppColors.white,
-                  onDateChange: (date) async {
+                  onDateChange: (date) {
                     selectedDate = date;
                     getAllTasks();
                     setState(() {});
@@ -199,12 +197,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       separatorBuilder: (context, index) =>
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                       itemCount: completedTasks.length,
                     ),
 
                   // Bottom padding for FAB
-                  SizedBox(height: 80),
+                  const SizedBox(height: 80),
                 ],
               ),
             ),
@@ -240,7 +238,6 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (uncompletedResult) {
       case Success():
         uncompletedTasks = uncompletedResult.data ?? [];
-        log(uncompletedTasks.toString());
       case Failure():
         AppDialogs.showErrorDialog(
           context,
@@ -251,7 +248,6 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (completedResult) {
       case Success():
         completedTasks = completedResult.data ?? [];
-        log(completedTasks.toString());
       case Failure():
         AppDialogs.showErrorDialog(context, message: completedResult.errorMsg);
     }
