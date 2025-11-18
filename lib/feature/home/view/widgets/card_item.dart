@@ -4,23 +4,21 @@ import 'package:tasky_nti/core/theme/app_colors.dart';
 import 'package:tasky_nti/core/theme/app_fonts.dart';
 import 'package:tasky_nti/core/utils/formatter.dart';
 
-class CardItem extends StatefulWidget {
+class CardItem extends StatelessWidget {
   const CardItem({
     super.key,
     required this.title,
     required this.date,
     required this.priority,
+    required this.isCompleted,
+    required this.onChanged,
   });
   final String title;
   final DateTime date;
   final int priority;
+  final bool isCompleted;
+  final void Function(bool?) onChanged;
 
-  @override
-  State<CardItem> createState() => _CardItemState();
-}
-
-class _CardItemState extends State<CardItem> {
-  bool isCompleted = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,9 +34,7 @@ class _CardItemState extends State<CardItem> {
             child: Checkbox(
               value: isCompleted,
               onChanged: (value) {
-                setState(() {
-                  isCompleted = value!;
-                });
+                onChanged(value);
               },
               side: BorderSide(width: 1.5, color: AppColors.primary),
               activeColor: AppColors.primary,
@@ -53,9 +49,9 @@ class _CardItemState extends State<CardItem> {
               spacing: 6,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.title, style: AppFonts.cardTitle),
+                Text(title, style: AppFonts.cardTitle),
                 Text(
-                  Formatter.formattedDate(widget.date),
+                  Formatter.formattedDate(date),
                   style: AppFonts.cardSubtitle,
                 ),
               ],
@@ -71,7 +67,7 @@ class _CardItemState extends State<CardItem> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset(AppConstants.flagIcon, scale: 2),
-                Text(' ${widget.priority} '),
+                Text(' $priority '),
               ],
             ),
           ),

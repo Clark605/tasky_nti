@@ -27,11 +27,46 @@ abstract class FbTask {
     }
   }
 
-  static Future<FbResult<List<TaskModel>>> getTasks() async {
+  static Future<FbResult<List<TaskModel>>> getUncompletedTasksOnDate(
+    DateTime date,
+  ) async {
     try {
-      final querySnapshot = await _getCollection.get();
+      final formattedDate = DateTime(date.year, date.month, date.day);
+      final querySnapshot = await _getCollection
+          .where('isCompleted', isEqualTo: false)
+          .where('dueDate', isEqualTo: formattedDate.millisecondsSinceEpoch)
+          .orderBy('priority')
+          .get();
       final tasks = querySnapshot.docs.map((doc) => doc.data()).toList();
       return Success(data: tasks);
+    } catch (e) {
+      return Failure(errorMsg: e.toString());
+    }
+  }
+
+  static Future<FbResult<List<TaskModel>>> getCompletedTasksOnDate(
+    DateTime date,
+  ) async {
+    try {
+      final formattedDate = DateTime(date.year, date.month, date.day);
+
+      final querySnapshot = await _getCollection
+          .where('isCompleted', isEqualTo: true)
+          .where('dueDate', isEqualTo: formattedDate.millisecondsSinceEpoch)
+          .orderBy('priority')
+          .get();
+      final tasks = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+      return Success(data: tasks);
+    } catch (e) {
+      return Failure(errorMsg: e.toString());
+    }
+  }
+
+  static Future<FbResult<void>> updateTask(TaskModel task) async {
+    try {
+      await _getCollection.doc(task.id).set(task);
+      return Success();
     } catch (e) {
       return Failure(errorMsg: e.toString());
     }

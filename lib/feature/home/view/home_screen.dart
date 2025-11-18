@@ -24,27 +24,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<TaskModel> tasks = [];
-  bool isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    getTasks();
-  }
-
-  void getTasks() async {
-    final result = await FbTask.getTasks();
-    switch (result) {
-      case Success():
-        tasks = result.data ?? [];
-        log(tasks.toString());
-      case Failure():
-        AppDialogs.showErrorDialog(context, message: result.errorMsg);
-    }
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,8 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
             DatePicker(
               DateTime.now(),
               height: 100,
-              initialSelectedDate: DateTime.now(),
+              initialSelectedDate: selectedDate,
               daysCount:
+                  // Calculate remaining days in the month
                   DateTime(
                     DateTime.now().year,
                     DateTime.now().month + 1,
@@ -70,8 +50,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   1,
               selectionColor: AppColors.primary,
               selectedTextColor: AppColors.white,
-              onDateChange: (date) {
-                // New date selected
+              onDateChange: (date) async {
+                selectedDate = date;
+                getAllTasks();
+                setState(() {});
               },
             ),
             AppTextFormField(
@@ -80,22 +62,33 @@ class _HomeScreenState extends State<HomeScreen> {
               hintText: 'Search for your tasks',
               prefixIcon: Image.asset(AppConstants.searchIcon, scale: 2),
             ),
-            if (tasks.isEmpty) EmptyState(),
-            if (tasks.isNotEmpty)
-              SizedBox(
-                height: 390,
-                child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return CardItem(
-                      title: tasks[index].title ?? '',
-                      date: tasks[index].date ?? DateTime.now(),
-                      priority: tasks[index].priority ?? 1,
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return SizedBox(height: 16);
-                  },
-                  itemCount: tasks.length,
+            if (uncompletedTasks.isEmpty) EmptyState(),
+            if (uncompletedTasks.isNotEmpty)
+              Scrollbar(
+                interactive: true,
+                child: SizedBox(
+                  height: 390,
+                  child: ListView.separated(
+                    itemBuilder: (context, index) {
+                      return CardItem(
+                        title: uncompletedTasks[index].title ?? '',
+                        date: uncompletedTasks[index].date ?? DateTime.now(),
+                        priority: uncompletedTasks[index].priority ?? 1,
+                        isCompleted:
+                            uncompletedTasks[index].isCompleted ?? false,
+                        onChanged: (value) async {
+                          uncompletedTasks[index].isCompleted = value ?? false;
+                          await FbTask.updateTask(uncompletedTasks[index]);
+                          getAllTasks();
+                          setState(() {});
+                        },
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return SizedBox(height: 16);
+                    },
+                    itemCount: uncompletedTasks.length,
+                  ),
                 ),
               ),
             Container(
@@ -106,20 +99,37 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: Text('Completed'),
             ),
-            SizedBox(
-              height: 390,
-              child: ListView.separated(
-                itemBuilder: (context, index) {
-                  return CardItem(
-                    title: tasks[index].title ?? '',
-                    date: tasks[index].date ?? DateTime.now(),
-                    priority: tasks[index].priority ?? 1,
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: 16);
-                },
-                itemCount: tasks.length,
+            if (completedTasks.isEmpty)
+              Center(
+                child: Text(
+                  'No completed tasks',
+                  style: TextStyle(color: AppColors.subtitleText, fontSize: 16),
+                ),
+              ),
+            Scrollbar(
+              child: SizedBox(
+                height: 390,
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return CardItem(
+                      title: completedTasks[index].title ?? '',
+                      date: completedTasks[index].date ?? DateTime.now(),
+                      priority: completedTasks[index].priority ?? 1,
+                      isCompleted: completedTasks[index].isCompleted ?? false,
+                      onChanged: (value) async {
+                        completedTasks[index].isCompleted = value ?? false;
+
+                        await FbTask.updateTask(completedTasks[index]);
+                        getAllTasks();
+                        setState(() {});
+                      },
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: 16);
+                  },
+                  itemCount: completedTasks.length,
+                ),
               ),
             ),
           ],
@@ -136,11 +146,46 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  List<TaskModel> uncompletedTasks = [];
+  List<TaskModel> completedTasks = [];
+  DateTime selectedDate = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    getAllTasks();
+  }
+
+  void getAllTasks() async {
+    final uncompletedResult = await FbTask.getUncompletedTasksOnDate(
+      selectedDate,
+    );
+    switch (uncompletedResult) {
+      case Success():
+        uncompletedTasks = uncompletedResult.data ?? [];
+        log(uncompletedTasks.toString());
+      case Failure():
+        AppDialogs.showErrorDialog(
+          context,
+          message: uncompletedResult.errorMsg,
+        );
+    }
+    final completedResult = await FbTask.getCompletedTasksOnDate(selectedDate);
+    switch (completedResult) {
+      case Success():
+        completedTasks = completedResult.data ?? [];
+        log(completedTasks.toString());
+      case Failure():
+        AppDialogs.showErrorDialog(context, message: completedResult.errorMsg);
+    }
+    setState(() {});
+  }
+
   Future<dynamic> floatingActionOnPressed(BuildContext context) {
     return showModalBottomSheet(
       context: context,
       builder: (context) => TaskBottomSheet(),
       isScrollControlled: true,
-    );
+    ).then((_) async => getAllTasks());
   }
 }

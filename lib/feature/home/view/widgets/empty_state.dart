@@ -11,7 +11,7 @@ class EmptyState extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       spacing: 14,
       children: [
-        const SizedBox(height: 80),
+        const SizedBox(height: 30),
         Image.asset(AppConstants.homeIcon, scale: 2),
         const Text(
           'What do you want to do today?',
