@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tasky_nti/core/constants/app_constants.dart';
 import 'package:tasky_nti/core/theme/app_colors.dart';
 import 'package:tasky_nti/core/theme/app_fonts.dart';
-import 'package:tasky_nti/feature/splash/splash.dart';
+import 'package:tasky_nti/feature/auth/data/firebase/fb_auth.dart';
+import 'package:tasky_nti/feature/onboarding/onboarding_screen.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({super.key});
@@ -20,8 +21,10 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       leadingWidth: 100,
       actions: [
         TextButton(
-          onPressed: () =>
-              Navigator.pushReplacementNamed(context, SplashScreen.routeName),
+          onPressed: () async {
+            await FbAuth.logout();
+            Navigator.pushReplacementNamed(context, OnboardingScreen.routeName);
+          },
           child: Row(
             children: [
               Image.asset(AppConstants.logOutIcon, scale: 2),

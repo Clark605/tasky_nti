@@ -29,154 +29,183 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: HomeAppBar(),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          spacing: 32,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            DatePicker(
-              DateTime.now(),
-              height: 100,
-              initialSelectedDate: selectedDate,
-              daysCount:
-                  // Calculate remaining days in the month
-                  DateTime(
-                    DateTime.now().year,
-                    DateTime.now().month + 1,
-                    0,
-                  ).day -
-                  DateTime.now().day +
-                  1,
-              selectionColor: AppColors.primary,
-              selectedTextColor: AppColors.white,
-              onDateChange: (date) async {
-                selectedDate = date;
-                getAllTasks();
-                setState(() {});
-              },
+      body: Column(
+        children: [
+          // Fixed header content
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              spacing: 32,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DatePicker(
+                  DateTime.now(),
+                  height: 100,
+                  initialSelectedDate: selectedDate,
+                  daysCount:
+                      // Calculate remaining days in the month
+                      DateTime(
+                        DateTime.now().year,
+                        DateTime.now().month + 1,
+                        0,
+                      ).day -
+                      DateTime.now().day +
+                      1,
+                  selectionColor: AppColors.primary,
+                  selectedTextColor: AppColors.white,
+                  onDateChange: (date) async {
+                    selectedDate = date;
+                    getAllTasks();
+                    setState(() {});
+                  },
+                ),
+                AppTextFormField(
+                  enabled:
+                      !(uncompletedTasks.isEmpty && completedTasks.isEmpty),
+                  controller: searchController,
+                  hintText: 'Search for your tasks',
+                  prefixIcon: Image.asset(AppConstants.searchIcon, scale: 2),
+                  onChanged: (value) {
+                    uncompletedTasks = uncompletedTasks
+                        .where(
+                          (task) => task.title!.toLowerCase().contains(
+                            value.toLowerCase(),
+                          ),
+                        )
+                        .toList();
+                    completedTasks = completedTasks
+                        .where(
+                          (task) => task.title!.toLowerCase().contains(
+                            value.toLowerCase(),
+                          ),
+                        )
+                        .toList();
+                    setState(() {});
+                    if (value.isEmpty) {
+                      getAllTasks();
+                    }
+                  },
+                ),
+                if (uncompletedTasks.isEmpty && searchController.text.isEmpty)
+                  EmptyState(),
+              ],
             ),
-            AppTextFormField(
-              controller: searchController,
-              hintText: 'Search for your tasks',
-              prefixIcon: Image.asset(AppConstants.searchIcon, scale: 2),
-              onChanged: (value) {
-                uncompletedTasks = uncompletedTasks
-                    .where(
-                      (task) => task.title!.toLowerCase().contains(
-                        value.toLowerCase(),
-                      ),
-                    )
-                    .toList();
-                completedTasks = completedTasks
-                    .where(
-                      (task) => task.title!.toLowerCase().contains(
-                        value.toLowerCase(),
-                      ),
-                    )
-                    .toList();
-                setState(() {});
-                if (value.isEmpty) {
-                  getAllTasks();
-                }
-              },
-            ),
-            if (uncompletedTasks.isEmpty && searchController.text.isEmpty)
-              EmptyState(),
-            if (uncompletedTasks.isEmpty && searchController.text.isNotEmpty)
-              SizedBox.shrink(),
-            if (uncompletedTasks.isNotEmpty)
-              Scrollbar(
-                interactive: true,
-                child: SizedBox(
-                  height: 390,
-                  child: ListView.separated(
-                    itemBuilder: (context, index) {
-                      return CardItem(
-                        title: uncompletedTasks[index].title ?? '',
-                        date: uncompletedTasks[index].date ?? DateTime.now(),
-                        priority: uncompletedTasks[index].priority ?? 1,
-                        isCompleted:
-                            uncompletedTasks[index].isCompleted ?? false,
-                        onChanged: (value) async {
-                          uncompletedTasks[index].isCompleted = value ?? false;
-                          await FbTask.updateTask(uncompletedTasks[index]);
-                          getAllTasks();
-                          setState(() {});
-                        },
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          TaskScreen.routeName,
-                          arguments: uncompletedTasks[index],
-                        ).whenComplete(getAllTasks),
-                        onDelete: (_) async {
-                          await FbTask.deleteTask(uncompletedTasks[index].id!);
-                          getAllTasks();
-                          setState(() {});
-                        },
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: 16);
-                    },
-                    itemCount: uncompletedTasks.length,
-                  ),
-                ),
-              ),
-            if (uncompletedTasks.isNotEmpty)
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.subtitleText),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text('Completed'),
-              ),
-            if (completedTasks.isEmpty && uncompletedTasks.isNotEmpty)
-              Center(
-                child: Text(
-                  'No completed tasks',
-                  style: TextStyle(color: AppColors.subtitleText, fontSize: 16),
-                ),
-              ),
-            Scrollbar(
-              child: SizedBox(
-                height: 390,
-                child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return CardItem(
-                      title: completedTasks[index].title ?? '',
-                      date: completedTasks[index].date ?? DateTime.now(),
-                      priority: completedTasks[index].priority ?? 1,
-                      isCompleted: completedTasks[index].isCompleted ?? false,
-                      onChanged: (value) async {
-                        completedTasks[index].isCompleted = value ?? false;
+          ),
 
-                        await FbTask.updateTask(completedTasks[index]);
-                        getAllTasks();
-                        setState(() {});
+          // Scrollable task lists
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                spacing: 32,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Uncompleted tasks
+                  if (uncompletedTasks.isNotEmpty)
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return CardItem(
+                          title: uncompletedTasks[index].title ?? '',
+                          date: uncompletedTasks[index].date ?? DateTime.now(),
+                          priority: uncompletedTasks[index].priority ?? 1,
+                          isCompleted:
+                              uncompletedTasks[index].isCompleted ?? false,
+                          onChanged: (value) async {
+                            uncompletedTasks[index].isCompleted =
+                                value ?? false;
+                            await FbTask.updateTask(uncompletedTasks[index]);
+                            getAllTasks();
+                            setState(() {});
+                          },
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            TaskScreen.routeName,
+                            arguments: uncompletedTasks[index],
+                          ).whenComplete(getAllTasks),
+                          onDelete: (_) async {
+                            await FbTask.deleteTask(
+                              uncompletedTasks[index].id!,
+                            );
+                            getAllTasks();
+                            setState(() {});
+                          },
+                        );
                       },
-                      onTap: () => Navigator.pushNamed(
-                        context,
-                        TaskScreen.routeName,
-                        arguments: completedTasks[index],
-                      ).whenComplete(getAllTasks),
-                      onDelete: (_) async {
-                        await FbTask.deleteTask(completedTasks[index].id!);
-                        getAllTasks();
-                        setState(() {});
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: 16),
+                      itemCount: uncompletedTasks.length,
+                    ),
+
+                  // Completed label
+                  if (uncompletedTasks.isNotEmpty || completedTasks.isNotEmpty)
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.subtitleText),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text('Completed'),
+                    ),
+
+                  // No completed tasks message
+                  if (completedTasks.isEmpty && uncompletedTasks.isNotEmpty)
+                    Center(
+                      child: Text(
+                        'No completed tasks',
+                        style: TextStyle(
+                          color: AppColors.subtitleText,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+
+                  // Completed tasks
+                  if (completedTasks.isNotEmpty)
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return CardItem(
+                          title: completedTasks[index].title ?? '',
+                          date: completedTasks[index].date ?? DateTime.now(),
+                          priority: completedTasks[index].priority ?? 1,
+                          isCompleted:
+                              completedTasks[index].isCompleted ?? false,
+                          onChanged: (value) async {
+                            completedTasks[index].isCompleted = value ?? false;
+                            await FbTask.updateTask(completedTasks[index]);
+                            getAllTasks();
+                            setState(() {});
+                          },
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            TaskScreen.routeName,
+                            arguments: completedTasks[index],
+                          ).whenComplete(getAllTasks),
+                          onDelete: (_) async {
+                            await FbTask.deleteTask(completedTasks[index].id!);
+                            getAllTasks();
+                            setState(() {});
+                          },
+                        );
                       },
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return SizedBox(height: 16);
-                  },
-                  itemCount: completedTasks.length,
-                ),
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: 16),
+                      itemCount: completedTasks.length,
+                    ),
+
+                  // Bottom padding for FAB
+                  SizedBox(height: 80),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
 
       floatingActionButton: FloatingActionButton(

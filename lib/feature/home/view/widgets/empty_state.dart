@@ -7,23 +7,25 @@ class EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: 14,
-      children: [
-        const SizedBox(height: 30),
-        Image.asset(AppConstants.homeIcon, scale: 2),
-        const Text(
-          'What do you want to do today?',
-          style: AppFonts.homeTitle,
-          textAlign: TextAlign.center,
-        ),
-        const Text(
-          'Tap + to add your tasks',
-          style: AppFonts.onBoardingSubtitle,
-          textAlign: TextAlign.center,
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 14,
+        children: [
+          const SizedBox(height: 30),
+          Image.asset(AppConstants.homeIcon, scale: 2),
+          const Text(
+            'What do you want to do today?',
+            style: AppFonts.homeTitle,
+            textAlign: TextAlign.center,
+          ),
+          const Text(
+            'Tap + to add your tasks',
+            style: AppFonts.onBoardingSubtitle,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }

@@ -10,6 +10,7 @@ class AppTextFormField extends StatefulWidget {
   final String? hintText;
   bool obscureText;
   final bool isPassword;
+  final bool enabled;
   final Widget? prefixIcon;
   final TextEditingController controller;
   final MyValidator? validator;
@@ -23,6 +24,7 @@ class AppTextFormField extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
     this.isPassword = false,
+    this.enabled = true,
     this.onChanged,
     super.key,
   });
@@ -35,6 +37,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: widget.enabled,
       style: AppFonts.labelText,
       obscureText: widget.obscureText,
       decoration: InputDecoration(

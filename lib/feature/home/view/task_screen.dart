@@ -54,7 +54,7 @@ class _TaskScreenState extends State<TaskScreen> {
               spacing: 8,
               children: [
                 Image.asset(AppConstants.timerIcon, scale: 2),
-                Text('Task time:', style: AppFonts.labelText),
+                Text('Task Time:', style: AppFonts.labelText),
                 Spacer(),
                 TextButton(
                   onPressed: () async {
@@ -136,7 +136,7 @@ class _TaskScreenState extends State<TaskScreen> {
                   children: [
                     Image.asset(AppConstants.trashIcon, scale: 2),
                     Text(
-                      'Detele Task',
+                      'Delete Task',
                       style: AppFonts.labelText.copyWith(color: Colors.red),
                     ),
                   ],
