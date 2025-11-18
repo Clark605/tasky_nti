@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:tasky_nti/core/constants/app_constants.dart';
 import 'package:tasky_nti/core/firebase/fb_result.dart';
 import 'package:tasky_nti/core/theme/app_colors.dart';
-import 'package:tasky_nti/core/utils/validator.dart';
 import 'package:tasky_nti/core/widgets/app_dialogs.dart';
 import 'package:tasky_nti/core/widgets/app_text_form_field.dart';
 import 'package:tasky_nti/feature/home/data/firebase/fb_task.dart';
@@ -110,6 +109,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           TaskScreen.routeName,
                           arguments: uncompletedTasks[index],
                         ).whenComplete(getAllTasks),
+                        onDelete: (_) async {
+                          await FbTask.deleteTask(uncompletedTasks[index].id!);
+                          getAllTasks();
+                          setState(() {});
+                        },
                       );
                     },
                     separatorBuilder: (context, index) {
@@ -157,6 +161,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         TaskScreen.routeName,
                         arguments: completedTasks[index],
                       ).whenComplete(getAllTasks),
+                      onDelete: (_) async {
+                        await FbTask.deleteTask(completedTasks[index].id!);
+                        getAllTasks();
+                        setState(() {});
+                      },
                     );
                   },
                   separatorBuilder: (context, index) {
