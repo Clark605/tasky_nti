@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"tasky-nti","appId":"1:789276487880:android:45f554d703b6765f4ab5fd","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"tasky-nti","configurations":{"android":"1:789276487880:android:45f554d703b6765f4ab5fd","ios":"1:789276487880:ios:05117db880fa40404ab5fd"}}}}}}

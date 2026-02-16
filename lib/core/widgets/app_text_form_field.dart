@@ -10,16 +10,24 @@ class AppTextFormField extends StatefulWidget {
   final String? hintText;
   bool obscureText;
   final bool isPassword;
+  final bool enabled;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
   final TextEditingController controller;
-  final MyValidator validator;
+  final MyValidator? validator;
+  final ValueChanged<String>? onChanged;
 
   AppTextFormField({
     required this.controller,
-    required this.validator,
+    this.validator,
     this.hintText,
+    this.prefixIcon,
+    this.suffixIcon,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
     this.isPassword = false,
+    this.enabled = true,
+    this.onChanged,
     super.key,
   });
 
@@ -31,6 +39,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: widget.enabled,
       style: AppFonts.labelText,
       obscureText: widget.obscureText,
       decoration: InputDecoration(
@@ -49,7 +58,8 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
                   });
                 },
               )
-            : null,
+            : widget.suffixIcon,
+        prefixIcon: widget.prefixIcon,
 
         contentPadding: const EdgeInsets.all(15),
         enabledBorder: outlineInputBorder(
@@ -75,7 +85,8 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
       ),
       keyboardType: widget.keyboardType,
       controller: widget.controller,
-      validator: widget.validator,
+      validator: widget.validator ?? (value) => null,
+      onChanged: widget.onChanged,
     );
   }
 
